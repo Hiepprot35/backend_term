@@ -5,7 +5,7 @@ const path = require('path')
 var cors = require('cors')
 
 require('dotenv').config()
-const Host_URL='https://chiruhocdi.netlify.app';
+const Host_URL='https://chirustudy.netlify.app/';
 // const Host_URL='http://localhost:3000';
 
 const db=require('./config/dbconfig')
