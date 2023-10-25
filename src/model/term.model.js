@@ -15,26 +15,30 @@ class TermModel {
         return result;
     }
     async insertTermModel(data) {
-        console.log(data);
 
         // Tạo một mảng các promise cho từng truy vấn INSERT
-        const insertPromises = data.map(term => {
-            const img=term.HinhAnh.data
-            const  HexDataImg=img && img.map(byte => byte.toString(16).padStart(2, '0')).join('');
-            const binaryImg=Buffer.from(HexDataImg, 'hex');
-
-            const dataFinal = { ...term, HinhAnh: binaryImg }
-
-            return new Promise((resolve, reject) => {
-                dbconnection.query('INSERT INTO term SET ?', dataFinal, (err, result) => {
-                    if (!err) {
-                        resolve(result);
-                    } else {
-                        reject(err);
-                    }
+        try {
+            const insertPromises = data.map(term => {
+                const img=term.HinhAnh?.data
+                const  HexDataImg=img && img.map(byte => byte.toString(16).padStart(2, '0')).join('');
+                const binaryImg=HexDataImg&& Buffer.from(HexDataImg, 'hex');
+    
+                const dataFinal = { ...term, HinhAnh: binaryImg || "IMG" }
+    
+                return new Promise((resolve, reject) => {
+                    dbconnection.query('INSERT INTO term SET ?', dataFinal, (err, result) => {
+                        if (!err) {
+                            resolve(result);
+                        } else {
+                            reject(err);
+                        }
+                    });
                 });
             });
-        });
+        } catch (error) {
+            console.log(error)
+        }
+      
 
         return insertPromises
     }
