@@ -12,13 +12,13 @@ class TermController {
     }
     async insertTermController(req,res,next)
     {
-        console.log(req.body)
+        console.log("Dữ liệu nhận được",req.body)
         try {
             const result=await TermModel.insertTermModel(req.body);
             console.log(result)
             res.send(result)
         } catch (error) {
-            
+            console.log(error)
         }
     }
 }
