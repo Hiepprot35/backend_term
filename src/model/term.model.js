@@ -35,12 +35,12 @@ class TermModel {
                     });
                 });
             });
+            return insertPromises
         } catch (error) {
             console.log(error)
         }
       
 
-        return insertPromises
     }
 
 }
