@@ -4,7 +4,6 @@ class TermController {
     async getAllTermController(req, res, next) {
         try {
             const result = await TermModel.getAllTermModel();
-            console.log("cacac")
             res.send(result);
         } catch (error) {
             res.json(`Internal Server Error: ${error.message}`);
