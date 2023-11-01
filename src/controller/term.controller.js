@@ -2,8 +2,9 @@ const TermModel=require('../model/term.model')
 // Đảm bảo rằng bạn đã đặt async cho route handler
 class TermController {
     async getAllTermController(req, res, next) {
+        console.log(req.params)
         try {
-            const result = await TermModel.getAllTermModel();
+            const result = await TermModel.getAllTermModel(req.params);
             res.send(result);
         } catch (error) {
             res.json(`Internal Server Error: ${error.message}`);
@@ -18,6 +19,16 @@ class TermController {
             res.send(result)
         } catch (error) {
             console.log(error)
+        }
+    }
+    async getAllTitleController(req,res,next)
+    {
+        try {
+            const result= await TermModel.getAllTitle()
+            res.send(result)
+        } catch (error) {
+            console.log(error)
+
         }
     }
 }

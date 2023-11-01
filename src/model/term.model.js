@@ -1,8 +1,8 @@
 const { dbconnection } = require('../config/dbconfig');
 class TermModel {
-    async getAllTermModel() {
+    async getAllTermModel(data) {
         const result = await new Promise(function (resolve, reject) {
-            dbconnection.query('SELECT * FROM term', (err, result) => {
+            dbconnection.query('SELECT * FROM term where title=?',[data.title], (err, result) => {
                 if (result) {
                     resolve(result);
                 } else {
@@ -15,7 +15,6 @@ class TermModel {
         return result;
     }
     async insertTermModel(data) {
-
         // Tạo một mảng các promise cho từng truy vấn INSERT
         try {
             const insertPromises = data.map(term => {
@@ -24,7 +23,7 @@ class TermModel {
                 const binaryImg=HexDataImg&& Buffer.from(HexDataImg, 'hex');
     
                 const dataFinal = { ...term, HinhAnh: binaryImg || "IMG" }
-    
+                console.log(dataFinal)
                 return new Promise((resolve, reject) => {
                     dbconnection.query('INSERT INTO term SET ?', dataFinal, (err, result) => {
                         if (!err) {
@@ -39,8 +38,25 @@ class TermModel {
         } catch (error) {
             console.log(error)
         }
-      
-
+    }
+    async getAllTitle()
+    {
+        try {
+            const result = await new Promise(function (resolve, reject) {
+                dbconnection.query('SELECT title,Mota FROM `term`GROUP BY title', (err, result) => {
+                    if (result) {
+                        resolve(result);
+                    } else {
+                        reject(err);
+                    }
+                });
+            }
+    
+            );
+            return result;
+        } catch (error) {
+            
+        }
     }
 
 }
